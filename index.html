@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name — Professional Portfolio</title>
+  <meta name="description" content="Professional portfolio showcasing work, skills, and contact details." />
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{
+      --bg-1:#05060f;
+      --bg-2:#07121a;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent-a:#00d4ff;
+      --accent-b:#ff6a8a;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --container:1150px;
+      --gap:24px;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      --focus: 0 0 0 4px rgba(0,212,255,0.10);
+      --tap:44px; /* minimum tap size */
+    }
+
+    /* Base reset */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#e6eef6;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+
+    .wrap{max-width:var(--container);margin:36px auto;padding:20px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));display:flex;align-items:center;justify-content:center;font-weight:800;color:#041016;box-shadow:0 6px 26px rgba(0,212,255,0.08)}
+    .brand h1{font-size:18px;margin:0}
+    .brand p{margin:0;color:var(--muted);font-size:13px}
+
+    nav{display:flex;gap:10px;align-items:center}
+    .nav-links{display:flex;gap:8px}
+    .nav-links a{padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:14px}
+    .nav-links a:focus{outline:none;box-shadow:var(--focus)}
+
+    /* Mobile menu button */
+    .mobile-toggle{display:none;background:none;border:0;color:var(--muted);font-size:22px;padding:8px}
+
+    /* Layout */
+    main{display:flex;gap:var(--gap);margin-top:24px;align-items:flex-start}
+    aside{width:320px;flex-shrink:0;background:linear-gradient(180deg,var(--card),#06131a);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);position:sticky;top:20px;height:fit-content}
+
+    .avatar{width:160px;height:160px;border-radius:16px;overflow:hidden;margin:0 auto;box-shadow:0 12px 30px rgba(2,6,23,0.6)}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .name{margin-top:12px;text-align:center;font-size:20px;font-weight:700}
+    .role{color:var(--muted);text-align:center;margin-top:6px;font-size:13px}
+
+    .socials{display:flex;gap:8px;justify-content:center;margin-top:12px}
+    .socials a{width:40px;height:40px;border-radius:10px;background:var(--glass);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--accent-a);font-weight:700}
+
+    .contact-card{margin-top:18px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
+    .contact-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+    .chip{background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:10px;color:var(--muted);font-size:13px}
+    .cta{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#041016;font-weight:700;text-decoration:none}
+    .btn.alt{background:linear-gradient(90deg,#25D366,#128C7E);color:white}
+
+    /* Content area */
+    section.content{flex:1;max-width:820px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(2,6,23,0.45);margin-bottom:20px}
+    h2{margin:0 0 10px}
+    p.bio{color:var(--muted);line-height:1.6}
+
+    /* Skills */
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .skill{background:var(--glass);padding:12px;border-radius:10px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .bar{height:10px;background:rgba(255,255,255,0.04);border-radius:8px;margin-top:8px;overflow:hidden}
+    .bar > i{height:100%;display:block;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));width:0%;transition:width 900ms cubic-bezier(.2,.9,.2,1)}
+
+    /* Projects */
+    .projects{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .project{display:flex;gap:12px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);align-items:flex-start;cursor:pointer;transition:transform .28s ease,box-shadow .28s ease}
+    .project:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(0,0,0,0.6)}
+    .thumb{width:110px;height:72px;border-radius:8px;overflow:hidden;flex-shrink:0}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .tags{display:flex;gap:8px;margin-top:8px}
+    .tag{font-size:12px;background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:8px;color:var(--muted)}
+
+    /* Rating */
+    .rating{display:flex;align-items:center;gap:12px}
+    .stars{font-size:28px;cursor:pointer;user-select:none}
+    .rating-output{color:var(--muted);font-size:13px}
+
+    /* Footer */
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Reveal animation */
+    .reveal{opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* Accessibility & reduced motion */
+    @media (prefers-reduced-motion: reduce){*{transition:none!important} .reveal{transition:none}}
+
+    /* Responsive rules */
+    @media(max-width:1000px){
+      .mobile-toggle{display:block}
+      .nav-links{display:none}
+      main{flex-direction:column}
+      aside{width:100%;position:relative;top:auto}
+      .projects{grid-template-columns:1fr}
+    }
+
+    @media(max-width:520px){
+      .wrap{padding:12px;margin:18px auto}
+      .logo{width:48px;height:48px}
+      .avatar{width:120px;height:120px}
+      header{gap:10px}
+      .brand h1{font-size:16px}
+      .nav-links a{padding:10px 14px}
+      .btn{padding:12px;min-height:var(--tap)}
+      .projects{grid-template-columns:1fr}
+      .project{flex-direction:column;align-items:center;text-align:center}
+      .thumb{width:100%;height:160px}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <div class="brand" tabindex="0" aria-label="Portfolio Home">
+        <div class="logo" aria-hidden="true">Dev</div>
+        <div>
+          <h1>LAKKA SATYANANDA KUMAR</h1>
+          <p>Frontend Engineer • UI/UX Enthusiast</p>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <nav class="nav-links" id="main-nav">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button class="mobile-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <aside aria-labelledby="profile-heading">
+        <div class="avatar" aria-hidden="false"><img src="/NaniProfile.webp" alt="Profile photo"></div>
+        <div class="name">LAKKA SATYANANDA KUMAR</div>
+        <div class="role">Frontend Developer</div>
+
+        <div class="socials" aria-hidden="false">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Github">gh</a>
+          <a href="#" aria-label="Twitter">tw</a>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-row"><strong>Location</strong><span class="chip">Nandyal, India</span></div>
+          <div class="contact-row"><strong>Email</strong><span class="chip">anandsatya993@gmail.com</span></div>
+          <div class="contact-row"><strong>Phone</strong><span class="chip">+91 9398420256</span></div>
+
+          <div class="cta">
+            <a class="btn" href="mailto:anandsatya993@gmail.com?subject=Portfolio%20Contact">📩 Email</a>
+            <a class="btn alt" href="https://wa.me/9398420256" target="_blank" rel="noopener">💬 WhatsApp</a>
+            <a class="btn" href="/SATYANANDA KUMARLAKKA_InternshalaResume.pdf" download>⬇ Download CV</a>
+          </div>
+        </div>
+      </aside>
+
+      <section class="content">
+        <article id="about" class="card reveal">
+          <h2>About & Summary</h2>
+          <p class="bio">Innovative software developer with a passion for creating user-friendly applications that solve complex problems. I have a solid foundation in full-stack web development and a strong focus on front-end technologies. My goal is to leverage my technical skills and creativity to build cutting-edge software solutions that enhance user experiences.</p>
+        </article>
+
+        <article id="skills" class="card reveal">
+          <h2>Skills</h2>
+          <div class="skills-grid">
+            <div class="skill">
+              <div class="meta"><strong>HTML & CSS</strong><span class="muted">90%</span></div>
+              <div class="bar"><i data-val="90"></i></div>
+            </div>
+
+            <div class="skill">
+              <div class="meta"><strong>JavaScript</strong><span class="muted">85%</span></div>
+              <div class="bar"><i data-val="85"></i></div>
+            </div>
+
+            <div class="skill">
+              <div class="meta"><strong>React</strong><span class="muted">82%</span></div>
+              <div class="bar"><i data-val="82"></i></div>
+            </div>
+
+            <div class="skill">
+              <div class="meta"><strong>Node / Backend</strong><span class="muted">70%</span></div>
+              <div class="bar"><i data-val="70"></i></div>
+            </div>
+          </div>
+        </article>
+
+        <article id="projects" class="card reveal">
+          <h2>Selected Projects</h2>
+          <div class="projects">
+            <article class="project" tabindex="0" aria-labelledby="proj1">
+              <div class="thumb"><img src="/interactive.png" alt="Screenshot of Project 1"></div>
+              <div>
+                <h3 id="proj1">Interactive UI</h3>
+                <p class="muted">Rating components are more than just icons on a webpage; they are a powerful tool that bridges user opinions with digital platforms</p>
+                <div class="tags"><span class="tag">React</span><span class="tag">Vite</span><span class="tag">Firebase</span></div>
+              </div>
+            </article>
+
+            <article class="project" tabindex="0" aria-labelledby="proj2">
+              <div class="thumb"><img src="/Result_summary (1).png" alt="Screenshot of Project 2"></div>
+              <div>
+                <h3 id="proj2">Result summary</h3>
+                <p class="muted">Data visualisation dResults provide valuable insights, informing decision-making and indicating progress towards goals, guiding future strategies and improvements.</p>
+                <div class="tags"><span class="tag">React</span><span class="tag">D3</span><span class="tag">Node</span></div>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article id="contact" class="card reveal">
+          <h2>Contact</h2>
+          <p class="muted">Prefer a direct message? Use email or WhatsApp — both open your app instantly.</p>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+            <a class="btn" href="mailto:you@domain.com?subject=Portfolio%20Contact">📩 Email</a>
+            <a class="btn alt" href="https://wa.me/919876543210" target="_blank" rel="noopener">💬 WhatsApp</a>
+          </div>
+
+          <hr style="border:0;border-bottom:1px solid rgba(255,255,255,0.04);margin:18px 0;">
+
+          <h3 style="margin:0 0 8px">Rate My Work</h3>
+          <div class="rating">
+            <div class="stars" id="rating-box" role="img" aria-label="Rating">☆ ☆ ☆ ☆ ☆</div>
+            <div class="rating-output" id="rating-output">(no rating yet)</div>
+          </div>
+        </article>
+
+        <footer>
+          <p>Made with ♥ — Lakka Satyananda Kumar • <span class="muted">Available for freelance</span></p>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Helper selectors
+    const qs = s => document.querySelector(s);
+    const qsa = s => Array.from(document.querySelectorAll(s));
+
+    // Skill bars animation
+    function animateSkills(){
+      qsa('.bar > i').forEach((el, idx)=>{
+        const val = Number(el.dataset.val) || 0;
+        setTimeout(()=> el.style.width = val + '%', idx * 140);
+      });
+    }
+
+    // Reveal on scroll
+    function setupReveal(){
+      if('IntersectionObserver' in window){
+        const obs = new IntersectionObserver((entries)=>{
+          entries.forEach(ent=>{ if(ent.isIntersecting) ent.target.classList.add('visible'); });
+        },{threshold:0.12});
+        qsa('.reveal').forEach(el=>obs.observe(el));
+      } else { qsa('.reveal').forEach(el=>el.classList.add('visible')); }
+    }
+
+    // Rating (localStorage persistence)
+    const ratingBox = qs('#rating-box');
+    const ratingOut = qs('#rating-output');
+    function renderRating(value){
+      const stars = Array.from({length:5},(_,i)=> i < value ? '★' : '☆').join(' ');
+      ratingBox.textContent = stars;
+      ratingOut.textContent = value ? `You rated ${value} / 5` : '(no rating yet)';
+    }
+    function initRating(){
+      const saved = Number(localStorage.getItem('portfolio_rating')||0);
+      renderRating(saved);
+      ratingBox.addEventListener('click', (e)=>{
+        const rect = ratingBox.getBoundingClientRect();
+        const x = e.clientX - rect.left; const pct = x / rect.width; const selected = Math.min(5, Math.max(1, Math.ceil(pct * 5)));
+        localStorage.setItem('portfolio_rating', selected);
+        renderRating(selected);
+      });
+      ratingBox.addEventListener('keydown', (e)=>{
+        const cur = Number(localStorage.getItem('portfolio_rating')||0);
+        if(e.key === 'ArrowRight' && cur < 5){ localStorage.setItem('portfolio_rating', cur+1); renderRating(cur+1); }
+        if(e.key === 'ArrowLeft' && cur > 1){ localStorage.setItem('portfolio_rating', cur-1); renderRating(cur-1); }
+      });
+      ratingBox.tabIndex = 0; ratingBox.setAttribute('role','slider'); ratingBox.setAttribute('aria-valuemin',0); ratingBox.setAttribute('aria-valuemax',5);
+    }
+
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const toggle = qs('#menu-toggle');
+      const nav = qs('#main-nav');
+      toggle.addEventListener('click', ()=>{
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        nav.style.display = expanded ? 'none' : 'flex';
+        nav.style.flexDirection = 'column';
+        nav.style.gap = '8px';
+        nav.style.alignItems = 'flex-end';
+      });
+
+      // Init features
+      animateSkills();
+      setupReveal();
+      initRating();
+
+      // Simple keyboard shortcut: 's' to focus skills
+      document.addEventListener('keydown', e=>{ if(e.key === 's'){ const el = qs('a[href="#skills"]'); if(el) el.focus(); }});
+
+      // make project cards keyboard friendly
+      qsa('.project').forEach(p=>{ p.addEventListener('keypress', ev=>{ if(ev.key === 'Enter') p.click(); }) });
+    });
+  </script>
+</body>
+</html>
